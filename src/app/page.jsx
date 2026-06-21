@@ -8,7 +8,7 @@ export default function About() {
 
       <main className="p-10">
         <h1 className="text-3xl font-bold">
-          About
+          Welcome to the Homestay Review Analyzer
         </h1>
 
         <p className="mt-4">

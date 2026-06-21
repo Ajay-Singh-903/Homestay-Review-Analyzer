@@ -7,15 +7,30 @@ export default function About() {
       <Navbar />
 
       <main className="p-10">
-        <h1 className="text-3xl font-bold">
-          About
-        </h1>
+  <h1 className="text-3xl font-bold text-green-800">
+    About Homestay Review Analyzer
+  </h1>
 
-        <p className="mt-4">
-          Homestay Review Analyzer helps staff understand
-          guest feedback using AI.
-        </p>
-      </main>
+  <p className="mt-4 text-gray-700">
+    Homestay Review Analyzer is an AI-powered platform designed to help
+    homestay owners and staff understand guest feedback more effectively.
+    The system analyzes reviews from different platforms and provides
+    valuable insights to improve customer satisfaction.
+  </p>
+
+  <p className="mt-4 text-gray-700">
+    Using Artificial Intelligence, the application automatically classifies
+    reviews as Positive, Neutral, or Negative, identifies key themes such
+    as Food, Host, Location, Cleanliness, and Experience, and generates
+    professional management responses.
+  </p>
+
+  <p className="mt-4 text-gray-700">
+    The platform also includes features like priority alerts for highly
+    negative reviews and support for multilingual reviews, helping
+    homestay businesses respond quickly and enhance guest experiences.
+  </p>
+</main>
 
       <Footer />
     </>
