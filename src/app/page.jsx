@@ -12,8 +12,10 @@ export default function About() {
         </h1>
 
         <p className="mt-4">
-          Homestay Review Analyzer helps the staff understand the
-          guest feedback using AI.
+            Transform guest feedback into actionable insights with AI.
+            Analyze reviews instantly, detect sentiment, identify key themes,
+            and generate professional responses to improve guest satisfaction
+            and enhance the overall homestay experience.
         </p>
       </main>
 
