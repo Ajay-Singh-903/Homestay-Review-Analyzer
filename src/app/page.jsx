@@ -12,7 +12,7 @@ export default function About() {
         </h1>
 
         <p className="mt-4">
-          Homestay Review Analyzer helps staff understand
+          Homestay Review Analyzer helps the staff understand the
           guest feedback using AI.
         </p>
       </main>
