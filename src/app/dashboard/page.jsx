@@ -10,6 +10,10 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold">
           Review Dashboard
         </h1>
+        <p className="mt-2 text-gray-600">
+            Paste one or multiple guest reviews to analyze sentiment,
+            detect themes, and generate AI-powered responses.
+        </p>
 
         <textarea
           className="border w-full p-4 mt-4 rounded"
