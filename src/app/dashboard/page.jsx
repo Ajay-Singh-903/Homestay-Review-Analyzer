@@ -3,16 +3,17 @@ import Footer from "@/components/Footer";
 
 export default function Dashboard() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="p-10">
+      <main className="flex-grow p-10">
         <h1 className="text-3xl font-bold">
           Review Dashboard
         </h1>
+
         <p className="mt-2 text-gray-600">
-            Paste one or multiple guest reviews to analyze sentiment,
-            detect themes, and generate AI-powered responses.
+          Paste one or multiple guest reviews to analyze sentiment,
+          detect themes, and generate AI-powered responses.
         </p>
 
         <textarea
@@ -27,6 +28,6 @@ export default function Dashboard() {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
