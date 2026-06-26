@@ -1,36 +1,191 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Homestay Review Analyzer
 
-## Getting Started
+An AI-powered Full Stack web application that analyzes homestay guest reviews. The application performs sentiment analysis, identifies key themes, and generates AI-based responses to help homestay owners improve customer satisfaction.
 
-First, run the development server:
+---
+
+# Features
+
+## Frontend
+
+- Home Page
+- About Page
+- Dashboard
+- Login Page
+- Responsive Design
+- Dark / Light Mode
+- Reusable UI Components
+  - Button
+  - Input
+  - Modal
+  - Loader
+  - Toast
+
+## Backend
+
+- Express.js REST API
+- CRUD Operations
+- Search Reviews
+- Error Handling Middleware
+- Environment Variables using dotenv
+- CORS Enabled
+
+---
+
+# Tech Stack
+
+## Frontend
+
+- Next.js 16
+- React 19
+- Tailwind CSS v4
+
+## Backend
+
+- Node.js
+- Express.js
+- CORS
+- dotenv
+- Nodemon
+
+---
+
+# Project Structure
+
+```
+my-app
+│
+├── src
+│   ├── app
+│   ├── components
+│
+├── backend
+│   ├── controllers
+│   ├── routes
+│   ├── middleware
+│   ├── data
+│   ├── server.js
+│   ├── .env.example
+│   └── package.json
+│
+├── package.json
+└── README.md
+```
+
+---
+
+# Frontend Setup
+
+Open terminal:
+
+```bash
+npm install
+```
+
+Start frontend:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend runs at:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Backend Setup
 
-To learn more about Next.js, take a look at the following resources:
+Open another terminal:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+cd backend
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies:
 
-## Deploy on Vercel
+```bash
+npm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env` file inside the backend folder.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Add:
+
+```
+PORT=5000
+```
+
+Start backend:
+
+```bash
+npm run dev
+```
+
+Backend runs at:
+
+```
+http://localhost:5000
+```
+
+---
+
+# REST API Endpoints
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /api/reviews | Get all reviews |
+| GET | /api/reviews/:id | Get review by ID |
+| POST | /api/reviews | Create review |
+| PUT | /api/reviews/:id | Update review |
+| DELETE | /api/reviews/:id | Delete review |
+| GET | /api/reviews/search?q=keyword | Search reviews |
+
+---
+
+# Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```
+PORT=5000
+```
+
+---
+
+# Run the Project
+
+### Terminal 1
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+### Terminal 2
+
+```bash
+npm install
+npm run dev
+```
+
+Open:
+
+```
+Frontend:
+http://localhost:3000
+
+Backend:
+http://localhost:5000
+```
+
+---
+
+# Author
+
+Ajay Singh
+
+AI-Assisted Full Stack Web Development Internship
