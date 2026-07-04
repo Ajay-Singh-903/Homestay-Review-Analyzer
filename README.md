@@ -136,7 +136,7 @@ MongoDB was chosen because it provides:
 
 > **Week 5 Deliverable**
 
-Add your schema diagram here after creating it.
+![Schema Diagram](public/images/schema-diagram.png)
 
 Example:
 
