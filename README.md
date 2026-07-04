@@ -137,7 +137,7 @@ MongoDB was chosen because it provides:
 > **Week 5 Deliverable**
 
 
-![Schema Diagram](public/images/schema-diagram.png)
+![Schema Diagram](/public/images/schema-diagram.png)
 ---
 
 # ⚙ Backend Setup
