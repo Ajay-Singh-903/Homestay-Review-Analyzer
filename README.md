@@ -1,56 +1,73 @@
-# Homestay Review Analyzer
+# 🏡 Homestay Review Analyzer
 
-An AI-powered Full Stack web application that analyzes homestay guest reviews. The application performs sentiment analysis, identifies key themes, and generates AI-based responses to help homestay owners improve customer satisfaction.
+An AI-powered Full Stack Web Application that helps homestay owners analyze guest reviews using sentiment analysis. The application allows users to create, search, update, and delete reviews while storing all data permanently in MongoDB Atlas.
 
 ---
 
-# Features
+# 🚀 Features
 
 ## Frontend
 
-- Home Page
-- About Page
+- Responsive Landing Page
 - Dashboard
 - Login Page
+- About Page
 - Responsive Design
 - Dark / Light Mode
-- Reusable UI Components
-  - Button
-  - Input
-  - Modal
-  - Loader
-  - Toast
+- Search Reviews
+- Add New Review
+- Edit Existing Review
+- Delete Review
+- Automatic Sentiment Detection
+- Toast Notifications
+- Loading Indicator
+
+### Reusable Components
+
+- Navbar
+- Footer
+- Loader
+- Toast
+- Buttons
+- Input Fields
+
+---
 
 ## Backend
 
-- Express.js REST API
-- CRUD Operations
+- RESTful API using Express.js
+- Full CRUD Operations
 - Search Reviews
+- MongoDB Atlas Integration
+- Mongoose ODM
 - Error Handling Middleware
-- Environment Variables using dotenv
+- Environment Variables with dotenv
 - CORS Enabled
 
 ---
 
-# Tech Stack
+# 🛠 Tech Stack
 
 ## Frontend
 
 - Next.js 16
 - React 19
 - Tailwind CSS v4
+- React Hot Toast
 
 ## Backend
 
 - Node.js
 - Express.js
-- CORS
+- MongoDB Atlas
+- Mongoose
 - dotenv
+- CORS
 - Nodemon
 
 ---
 
-# Project Structure
+# 📂 Project Structure
 
 ```
 my-app
@@ -58,15 +75,17 @@ my-app
 ├── src
 │   ├── app
 │   ├── components
+│   └── styles
 │
 ├── backend
 │   ├── controllers
-│   ├── routes
 │   ├── middleware
-│   ├── data
+│   ├── models
+│   ├── routes
 │   ├── server.js
+│   ├── package.json
 │   ├── .env.example
-│   └── package.json
+│   └── config
 │
 ├── package.json
 └── README.md
@@ -74,57 +93,87 @@ my-app
 
 ---
 
-# Frontend Setup
+# 🗄 Database
 
-Open terminal:
+### Database Used
 
-```bash
-npm install
+MongoDB Atlas
+
+### ODM
+
+Mongoose
+
+### Why MongoDB?
+
+MongoDB was chosen because it provides:
+
+- Flexible document-based schema
+- Easy integration with Node.js
+- Cloud-hosted free tier using MongoDB Atlas
+- Fast CRUD operations
+- Scalability for future AI features
+
+---
+
+# 🧩 Database Schema
+
+## Review Collection
+
+| Field | Type |
+|-------|------|
+| _id | ObjectId |
+| guestName | String |
+| review | String |
+| sentiment | String |
+| theme | String |
+| response | String |
+| createdAt | Date |
+| updatedAt | Date |
+
+---
+
+## Schema Diagram
+
+> **Week 5 Deliverable**
+
+Add your schema diagram here after creating it.
+
+Example:
+
 ```
-
-Start frontend:
-
-```bash
-npm run dev
-```
-
-Frontend runs at:
-
-```
-http://localhost:3000
+README Images/schema-diagram.png
 ```
 
 ---
 
-# Backend Setup
+# ⚙ Backend Setup
 
-Open another terminal:
+Open terminal
 
 ```bash
 cd backend
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 npm install
 ```
 
-Create a `.env` file inside the backend folder.
+Create a `.env` file
 
-Add:
-
-```
+```env
 PORT=5000
+MONGO_URI=your_mongodb_connection_string
 ```
 
-Start backend:
+Run server
 
 ```bash
 npm run dev
 ```
 
-Backend runs at:
+Backend runs on
 
 ```
 http://localhost:5000
@@ -132,32 +181,71 @@ http://localhost:5000
 
 ---
 
-# REST API Endpoints
+# 💻 Frontend Setup
+
+Install packages
+
+```bash
+npm install
+```
+
+Run frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs on
+
+```
+http://localhost:3000
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+```
+
+---
+
+# 📡 REST API Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| GET | /api/reviews | Get all reviews |
-| GET | /api/reviews/:id | Get review by ID |
-| POST | /api/reviews | Create review |
-| PUT | /api/reviews/:id | Update review |
-| DELETE | /api/reviews/:id | Delete review |
-| GET | /api/reviews/search?q=keyword | Search reviews |
+| GET | /api/reviews | Get All Reviews |
+| GET | /api/reviews/:id | Get Review by ID |
+| POST | /api/reviews | Create Review |
+| PUT | /api/reviews/:id | Update Review |
+| DELETE | /api/reviews/:id | Delete Review |
+| GET | /api/reviews/search?q=keyword | Search Reviews |
 
 ---
 
-# Environment Variables
+# ✅ CRUD Functionality
 
-Create a `.env` file inside the backend folder.
+✔ Create Reviews
 
-```
-PORT=5000
-```
+✔ Read Reviews
+
+✔ Update Reviews
+
+✔ Delete Reviews
+
+✔ Search Reviews
+
+✔ Persistent Storage using MongoDB Atlas
 
 ---
 
-# Run the Project
+# ▶ Run the Project
 
-### Terminal 1
+## Terminal 1
 
 ```bash
 cd backend
@@ -165,27 +253,58 @@ npm install
 npm run dev
 ```
 
-### Terminal 2
+---
+
+## Terminal 2
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open:
+---
+
+Open in browser
+
+Frontend
 
 ```
-Frontend:
 http://localhost:3000
+```
 
-Backend:
+Backend
+
+```
 http://localhost:5000
 ```
 
 ---
 
-# Author
+# 📸 Screenshots
 
-Ajay Singh
+Add screenshots here
+
+- Home Page
+- Dashboard
+- CRUD Operations
+- Search Feature
+
+---
+
+# 🚀 Future Improvements
+
+- AI-powered Sentiment Analysis using OpenAI
+- Theme Detection using NLP
+- Authentication & Authorization
+- User Profiles
+- Dashboard Analytics
+- Charts & Reports
+- Review Export (PDF/Excel)
+
+---
+
+# 👨‍💻 Author
+
+**Ajay Singh**
 
 AI-Assisted Full Stack Web Development Internship
