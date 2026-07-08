@@ -1,108 +1,132 @@
-const reviews = require("../data/reviews");
+const Review = require("../models/Review");
 
-const getAllReviews = (req, res) => {
-  res.status(200).json(reviews);
-};
-const getReviewById = (req, res) => {
-  const id = parseInt(req.params.id);
+const getAllReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find();
 
-  const review = reviews.find((r) => r.id === id);
-
-  if (!review) {
-    return res.status(404).json({
-      message: "Review not found",
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
-
-  res.status(200).json(review);
 };
-const createReview = (req, res) => {
-  const { guestName, review, sentiment, theme, response } = req.body;
+const getReviewById = async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
 
-  if (!guestName || !review) {
-    return res.status(400).json({
-      message: "Guest name and review are required",
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
-
-  const newReview = {
-    id: reviews.length + 1,
-    guestName,
-    review,
-    sentiment,
-    theme,
-    response,
-  };
-
-  reviews.push(newReview);
-
-  res.status(201).json(newReview);
 };
-const updateReview = (req, res) => {
-  const id = parseInt(req.params.id);
+const createReview = async (req, res) => {
+  try {
+    const { guestName, review, sentiment, theme, response } = req.body;
 
-  const reviewIndex = reviews.findIndex(
-    (r) => r.id === id
-  );
+    if (!guestName || !review) {
+      return res.status(400).json({
+        message: "Guest name and review are required",
+      });
+    }
 
-  if (reviewIndex === -1) {
-    return res.status(404).json({
-      message: "Review not found",
+    const newReview = await Review.create({
+      guestName,
+      review,
+      sentiment,
+      theme,
+      response,
+    });
+
+    res.status(201).json(newReview);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
-
-  const {
-    guestName,
-    review,
-    sentiment,
-    theme,
-    response,
-  } = req.body;
-
-  reviews[reviewIndex] = {
-    ...reviews[reviewIndex],
-    guestName,
-    review,
-    sentiment,
-    theme,
-    response,
-  };
-
-  res.status(200).json(reviews[reviewIndex]);
 };
-const deleteReview = (req, res) => {
-  const id = parseInt(req.params.id);
+const updateReview = async (req, res) => {
+  try {
+    const updatedReview = await Review.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-  const reviewIndex = reviews.findIndex(
-    (r) => r.id === id
-  );
+    if (!updatedReview) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
 
-  if (reviewIndex === -1) {
-    return res.status(404).json({
-      message: "Review not found",
+    res.status(200).json(updatedReview);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
-
-  reviews.splice(reviewIndex, 1);
-
-  res.status(204).send();
 };
-const searchReviews = (req, res) => {
-  const query = req.query.q;
+const deleteReview = async (req, res) => {
+  try {
+    const deletedReview = await Review.findByIdAndDelete(req.params.id);
 
-  if (!query) {
-    return res.status(400).json({
-      message: "Search query is required",
+    if (!deletedReview) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
+};
+const searchReviews = async (req, res) => {
+  try {
+    const query = req.query.q;
 
-  const result = reviews.filter(
-    (r) =>
-      r.review.toLowerCase().includes(query.toLowerCase()) ||
-      r.guestName.toLowerCase().includes(query.toLowerCase())
-  );
+    if (!query) {
+      return res.status(400).json({
+        message: "Search query is required",
+      });
+    }
 
-  res.status(200).json(result);
+    const reviews = await Review.find({
+      $or: [
+        {
+          guestName: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+        {
+          review: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+      ],
+    });
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 module.exports = {
   getAllReviews,
