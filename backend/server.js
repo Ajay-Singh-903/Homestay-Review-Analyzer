@@ -1,3 +1,5 @@
+const connectDB = require("./config/db");
+const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -5,7 +7,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const errorHandler = require("./middleware/errorHandler");
 
 dotenv.config();
-
+connectDB();
 const app = express();
 app.get("/error", (req, res, next) => {
   const error = new Error("Testing Error Middleware");
