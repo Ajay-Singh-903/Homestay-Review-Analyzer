@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,15 +9,15 @@ import Toast from "@/components/ui/Toast";
 
 import toast from "react-hot-toast";
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const loginUser = async () => {
-    if (!email.trim() || !password.trim()) {
+  const registerUser = async () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
       toast.error("Please fill all fields.");
       return;
     }
@@ -27,13 +26,14 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "http://localhost:5000/api/auth/register",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            name,
             email,
             password,
           }),
@@ -43,18 +43,20 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.message);
+        if (data.errors) {
+          toast.error(data.errors[0].msg);
+        } else {
+          toast.error(data.message);
+        }
+
         setLoading(false);
         return;
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      toast.success("Login Successful!");
+      toast.success("Registration Successful!");
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/login");
       }, 1000);
 
     } catch (error) {
@@ -63,12 +65,6 @@ export default function Login() {
     }
 
     setLoading(false);
-  };
-
-  const googleLogin = () => {
-    signIn("google", {
-      callbackUrl: "/dashboard",
-    });
   };
 
   return (
@@ -80,12 +76,19 @@ export default function Login() {
         <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
 
           <h1 className="text-3xl font-bold text-center text-green-700 mb-2">
-            Welcome Back
+            Create Account
           </h1>
 
           <p className="text-center text-gray-500 mb-6">
-            Login to continue
+            Register to access the Homestay Review Analyzer
           </p>
+          <input
+  type="text"
+  placeholder="Enter Name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  className="border w-full p-3 mb-4 rounded-lg"
+/>
 
           <input
             type="email"
@@ -104,30 +107,22 @@ export default function Login() {
           />
 
           <button
-            onClick={loginUser}
+            onClick={registerUser}
             disabled={loading}
             className="bg-green-700 hover:bg-green-800 text-white w-full py-3 rounded-lg font-semibold"
           >
-            {loading ? "Logging In..." : "Login"}
+            {loading ? "Creating Account..." : "Register"}
           </button>
 
-          <div className="flex items-center my-6">
-            <hr className="flex-1" />
-            <span className="mx-3 text-gray-500 text-sm">OR</span>
-            <hr className="flex-1" />
-          </div>
-
-          <button
-            onClick={googleLogin}
-            className="border border-gray-300 hover:bg-gray-100 w-full py-3 rounded-lg font-semibold flex justify-center items-center gap-3"
-          >
-            <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              alt="Google"
-              className="w-5 h-5"
-            />
-            Sign in with Google
-          </button>
+          <p className="text-center mt-5 text-sm">
+            Already have an account?{" "}
+            <span
+              className="text-green-700 cursor-pointer font-semibold"
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </span>
+          </p>
 
         </div>
 

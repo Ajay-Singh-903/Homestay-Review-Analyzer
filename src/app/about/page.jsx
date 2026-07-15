@@ -1,8 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function About() {
   return (
+    <ProtectedRoute>
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
@@ -34,5 +36,6 @@ export default function About() {
 
       <Footer />
     </div>
+    </ProtectedRoute>
   );
 }

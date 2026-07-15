@@ -1,13 +1,18 @@
 "use client";
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Loader from "@/components/ui/Loader";
 import Toast from "@/components/ui/Toast";
+
 import toast from "react-hot-toast";
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const [review, setReview] = useState("");
   const [guestName, setGuestName] = useState("");
   const [search, setSearch] = useState("");
@@ -16,16 +21,48 @@ export default function Dashboard() {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
     fetchReviews();
   }, []);
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/reviews");
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        "http://localhost:5000/api/reviews",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       const data = await response.json();
-      setReviews(data);
+
+      if (!response.ok) {
+        toast.error(data.message || "Unauthorized");
+
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          router.push("/login");
+        }
+
+        setReviews([]);
+        return;
+      }
+
+      setReviews(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.log(err);
       toast.error("Failed to load reviews");
+      setReviews([]);
     }
   };
 
@@ -36,12 +73,25 @@ export default function Dashboard() {
         return;
       }
 
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
-        `http://localhost:5000/api/reviews/search?q=${search}`
+        `http://localhost:5000/api/reviews/search?q=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       const data = await response.json();
-      setReviews(data);
+
+      if (!response.ok) {
+        toast.error(data.message);
+        return;
+      }
+
+      setReviews(Array.isArray(data) ? data : []);
     } catch (err) {
       toast.error("Search failed");
     }
@@ -59,7 +109,7 @@ export default function Dashboard() {
       "perfect",
       "comfortable",
       "amazing",
-      "love"
+      "love",
     ];
 
     const negativeWords = [
@@ -72,7 +122,7 @@ export default function Dashboard() {
       "smelly",
       "broken",
       "terrible",
-      "awful"
+      "awful",
     ];
 
     const lower = text.toLowerCase();
@@ -80,16 +130,17 @@ export default function Dashboard() {
     let positive = 0;
     let negative = 0;
 
-    positiveWords.forEach(word => {
+    positiveWords.forEach((word) => {
       if (lower.includes(word)) positive++;
     });
 
-    negativeWords.forEach(word => {
+    negativeWords.forEach((word) => {
       if (lower.includes(word)) negative++;
     });
 
     if (positive > negative) return "Positive";
     if (negative > positive) return "Negative";
+
     return "Neutral";
   };
 
@@ -104,48 +155,43 @@ export default function Dashboard() {
     const sentiment = analyzeSentiment(review);
 
     try {
-      if (editingId) {
-        await fetch(
-          `http://localhost:5000/api/reviews/${editingId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              guestName,
-              review,
-              sentiment
-            })
-          }
-        );
+      const token = localStorage.getItem("token");
 
-        toast.success("Review Updated");
-      } else {
-        await fetch(
-          "http://localhost:5000/api/reviews",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              guestName,
-              review,
-              sentiment
-            })
-          }
-        );
+      const url = editingId
+        ? `http://localhost:5000/api/reviews/${editingId}`
+        : "http://localhost:5000/api/reviews";
 
-        toast.success("Review Added");
+      const method = editingId ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          guestName,
+          review,
+          sentiment,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.message);
+        return;
       }
+
+      toast.success(
+        editingId ? "Review Updated" : "Review Added"
+      );
 
       setGuestName("");
       setReview("");
       setEditingId(null);
 
       fetchReviews();
-
     } catch (err) {
       toast.error("Operation failed");
     }
@@ -157,17 +203,25 @@ export default function Dashboard() {
     if (!confirm("Delete this review?")) return;
 
     try {
-      await fetch(
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
         `http://localhost:5000/api/reviews/${id}`,
         {
-          method: "DELETE"
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
+      if (!response.ok) {
+        toast.error("Delete failed");
+        return;
+      }
+
       toast.success("Deleted Successfully");
-
       fetchReviews();
-
     } catch {
       toast.error("Delete Failed");
     }
@@ -180,7 +234,7 @@ export default function Dashboard() {
 
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -196,7 +250,9 @@ export default function Dashboard() {
         return "bg-gray-500";
     }
   };
-    return (
+
+  return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Navbar />
 
@@ -209,68 +265,53 @@ export default function Dashboard() {
           </h1>
 
           <p className="text-gray-600 mt-2 mb-6">
-            Analyze guest reviews, detect sentiment and manage all reviews.
+            Analyze guest reviews and manage all reviews.
           </p>
-
-          {/* Search */}
 
           <div className="flex gap-3 mb-6">
 
             <input
               type="text"
-              placeholder="Search by guest or review..."
+              placeholder="Search..."
+              className="flex-1 border rounded-lg p-3"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 border rounded-lg p-3"
             />
 
             <button
               onClick={searchReviews}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-lg"
+              className="bg-blue-600 text-white px-5 rounded-lg"
             >
               Search
             </button>
 
             <button
               onClick={fetchReviews}
-              className="bg-gray-700 hover:bg-gray-800 text-white px-6 rounded-lg"
+              className="bg-gray-700 text-white px-5 rounded-lg"
             >
               Reset
             </button>
 
           </div>
 
-          {/* Form */}
-
-          <div className="grid md:grid-cols-2 gap-4">
-
-            <input
-              type="text"
-              placeholder="Guest Name"
-              value={guestName}
-              onChange={(e) => setGuestName(e.target.value)}
-              className="border rounded-lg p-3"
-            />
-
-            <div></div>
-
-          </div>
+          <input
+            className="border rounded-lg p-3 w-full mb-4"
+            placeholder="Guest Name"
+            value={guestName}
+            onChange={(e) => setGuestName(e.target.value)}
+          />
 
           <textarea
             rows={6}
-            placeholder="Write guest review..."
+            className="border rounded-lg p-3 w-full"
+            placeholder="Write review..."
             value={review}
             onChange={(e) => setReview(e.target.value)}
-            className="border rounded-lg p-3 w-full mt-4"
           />
 
           <button
             onClick={submitReview}
-            className={`mt-5 px-6 py-3 rounded-lg text-white font-semibold ${
-              editingId
-                ? "bg-yellow-500 hover:bg-yellow-600"
-                : "bg-green-700 hover:bg-green-800"
-            }`}
+            className="mt-5 bg-green-700 text-white px-6 py-3 rounded-lg"
           >
             {editingId ? "Update Review" : "Analyze & Save Review"}
           </button>
@@ -282,8 +323,6 @@ export default function Dashboard() {
           )}
 
         </div>
-
-        {/* Reviews */}
 
         <div className="mt-10">
 
@@ -300,39 +339,21 @@ export default function Dashboard() {
                 className="bg-white rounded-xl shadow-lg p-6"
               >
 
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between">
 
-                  <h3 className="text-xl font-bold">
+                  <h3 className="font-bold text-xl">
                     {item.guestName}
                   </h3>
 
-                  <span
-                    className={`text-white px-3 py-1 rounded-full text-sm ${badgeColor(
-                      item.sentiment
-                    )}`}
-                  >
+                  <span className={`text-white px-3 py-1 rounded-full ${badgeColor(item.sentiment)}`}>
                     {item.sentiment}
                   </span>
 
                 </div>
 
-                <p className="mt-4 text-gray-700">
-                  {item.review}
-                </p>
+                <p className="mt-4">{item.review}</p>
 
-                {item.theme && (
-                  <p className="mt-3">
-                    <strong>Theme:</strong> {item.theme}
-                  </p>
-                )}
-
-                {item.response && (
-                  <p className="mt-2">
-                    <strong>AI Response:</strong> {item.response}
-                  </p>
-                )}
-
-                <p className="mt-4 text-xs text-gray-500">
+                <p className="text-xs mt-4 text-gray-500">
                   {new Date(item.createdAt).toLocaleString()}
                 </p>
 
@@ -340,14 +361,14 @@ export default function Dashboard() {
 
                   <button
                     onClick={() => editReview(item)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+                    className="bg-yellow-500 text-white px-4 py-2 rounded"
                   >
                     Edit
                   </button>
 
                   <button
                     onClick={() => deleteReview(item._id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                    className="bg-red-600 text-white px-4 py-2 rounded"
                   >
                     Delete
                   </button>
@@ -367,5 +388,6 @@ export default function Dashboard() {
       <Toast />
       <Footer />
     </div>
+    </ProtectedRoute>
   );
 }
