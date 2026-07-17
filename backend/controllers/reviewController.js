@@ -30,7 +30,14 @@ const getReviewById = async (req, res) => {
 };
 const createReview = async (req, res) => {
   try {
-    const { guestName, review, sentiment, theme, response } = req.body;
+    const {
+  guestName,
+  review,
+  sentiment,
+  aiSentiment,
+  theme,
+  response,
+} = req.body;
 
     if (!guestName || !review) {
       return res.status(400).json({
@@ -39,12 +46,13 @@ const createReview = async (req, res) => {
     }
 
     const newReview = await Review.create({
-      guestName,
-      review,
-      sentiment,
-      theme,
-      response,
-    });
+  guestName,
+  review,
+  sentiment,
+  aiSentiment,
+  theme,
+  response,
+});
 
     res.status(201).json(newReview);
   } catch (error) {
