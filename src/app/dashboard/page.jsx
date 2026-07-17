@@ -19,6 +19,10 @@ export default function Dashboard() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [aiResult, setAiResult] = useState("");
+  const [aiSentiment, setAiSentiment] = useState("");
+const [aiTheme, setAiTheme] = useState("");
+const [aiResponse, setAiResponse] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -143,7 +147,67 @@ export default function Dashboard() {
 
     return "Neutral";
   };
+const analyzeWithAI = async () => {
+  if (!review.trim()) {
+    toast.error("Please enter a review.");
+    return;
+  }
 
+  setLoading(true);
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      "http://localhost:5000/api/ai/analyze",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          review,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      toast.error(data.message || "AI analysis failed");
+      setLoading(false);
+      return;
+    }
+
+    setAiResult(data.result);
+
+// Extract AI values
+const sentimentMatch = data.result.match(/Sentiment:\s*(.*)/i);
+const themeMatch = data.result.match(/Theme:\s*(.*)/i);
+const responseMatch = data.result.match(/AI Response:\s*([\s\S]*)/i);
+
+setAiSentiment(
+  sentimentMatch ? sentimentMatch[1].trim() : ""
+);
+
+setAiTheme(
+  themeMatch ? themeMatch[1].trim() : ""
+);
+
+setAiResponse(
+  responseMatch ? responseMatch[1].trim() : ""
+);
+
+toast.success("AI Analysis Complete!");
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Unable to connect to AI.");
+  }
+
+  setLoading(false);
+};
   const submitReview = async () => {
     if (!guestName.trim() || !review.trim()) {
       toast.error("Please fill all fields");
@@ -170,10 +234,13 @@ export default function Dashboard() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          guestName,
-          review,
-          sentiment,
-        }),
+  guestName,
+  review,
+  sentiment,
+  aiSentiment,
+  theme: aiTheme,
+  response: aiResponse,
+}),
       });
 
       const data = await response.json();
@@ -190,6 +257,10 @@ export default function Dashboard() {
       setGuestName("");
       setReview("");
       setEditingId(null);
+      setAiResult("");
+setAiSentiment("");
+setAiTheme("");
+setAiResponse("");
 
       fetchReviews();
     } catch (err) {
@@ -309,18 +380,41 @@ export default function Dashboard() {
             onChange={(e) => setReview(e.target.value)}
           />
 
-          <button
-            onClick={submitReview}
-            className="mt-5 bg-green-700 text-white px-6 py-3 rounded-lg"
-          >
-            {editingId ? "Update Review" : "Analyze & Save Review"}
-          </button>
+        <div className="flex gap-4 mt-5">
 
+  <button
+    onClick={analyzeWithAI}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+  >
+    Analyze with AI
+  </button>
+
+  <button
+    onClick={submitReview}
+    className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg"
+  >
+    {editingId ? "Update Review" : "Save Review"}
+  </button>
+
+</div>
           {loading && (
             <div className="mt-5">
               <Loader />
             </div>
           )}
+          {aiResult && (
+  <div className="mt-6 bg-blue-50 border border-blue-300 rounded-xl p-6 shadow-lg">
+
+    <h2 className="text-2xl font-bold text-blue-700 mb-4">
+      🤖 AI Analysis
+    </h2>
+
+    <pre className="whitespace-pre-wrap text-gray-800 font-sans">
+      {aiResult}
+    </pre>
+
+  </div>
+)}
 
         </div>
 
@@ -352,6 +446,24 @@ export default function Dashboard() {
                 </div>
 
                 <p className="mt-4">{item.review}</p>
+                {item.aiSentiment && (
+  <p className="mt-3">
+    <strong>AI Sentiment:</strong> {item.aiSentiment}
+  </p>
+)}
+
+{item.theme && (
+  <p>
+    <strong>Theme:</strong> {item.theme}
+  </p>
+)}
+
+{item.response && (
+  <div className="mt-3 bg-gray-100 p-3 rounded-lg">
+    <strong>AI Response:</strong>
+    <p className="mt-1">{item.response}</p>
+  </div>
+)}
 
                 <p className="text-xs mt-4 text-gray-500">
                   {new Date(item.createdAt).toLocaleString()}
