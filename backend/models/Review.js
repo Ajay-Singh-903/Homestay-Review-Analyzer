@@ -14,16 +14,25 @@ const reviewSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Original sentiment used for badge
     sentiment: {
       type: String,
       default: "Pending",
     },
 
+    // AI-generated sentiment
+    aiSentiment: {
+      type: String,
+      default: "",
+    },
+
+    // AI-generated theme
     theme: {
       type: String,
       default: "",
     },
 
+    // AI-generated reply
     response: {
       type: String,
       default: "",
