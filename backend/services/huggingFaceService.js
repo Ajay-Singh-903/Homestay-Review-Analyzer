@@ -28,7 +28,7 @@ Guest Review:
             content: prompt,
           },
         ],
-        max_tokens: 200,
+        max_tokens: 500,
       },
       {
         headers: {
