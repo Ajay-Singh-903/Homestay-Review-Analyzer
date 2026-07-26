@@ -36,47 +36,62 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-green-700 dark:bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+    <nav className="bg-green-700 dark:bg-gray-900 text-white px-4 py-4">
 
-      <h1 className="text-xl font-bold">
-        Homestay Review Analyzer
-      </h1>
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4">
 
-      <div className="flex items-center gap-5">
+        {/* Logo */}
+        <h1 className="text-2xl font-bold text-center md:text-left">
+          Homestay Review Analyzer
+        </h1>
 
-        <Link href="/">Home</Link>
+        {/* Menu */}
+        <div className="flex flex-wrap justify-center md:justify-end items-center gap-3">
 
-        <Link href="/about">About</Link>
+          <Link href="/" className="hover:text-gray-300">
+            Home
+          </Link>
 
-        <Link href="/dashboard">Dashboard</Link>
+          <Link href="/about" className="hover:text-gray-300">
+            About
+          </Link>
 
-        {!user && !session && (
-          <>
-            <Link href="/login">Login</Link>
+          <Link href="/dashboard" className="hover:text-gray-300">
+            Dashboard
+          </Link>
 
-            <Link href="/register">Register</Link>
-          </>
-        )}
+          {!user && !session && (
+            <>
+              <Link href="/login" className="hover:text-gray-300">
+                Login
+              </Link>
 
-        {(user || session) && (
-          <>
-            <span className="font-medium">
-              {session?.user?.name ||
-                user?.name ||
-                user?.email}
-            </span>
+              <Link href="/register" className="hover:text-gray-300">
+                Register
+              </Link>
+            </>
+          )}
 
-            <button
-              onClick={logout}
-              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
-            >
-              Logout
-            </button>
-          </>
-        )}
+          {(user || session) && (
+            <>
+              <span className="text-sm break-all max-w-[150px] text-center">
+                {session?.user?.name ||
+                  user?.name ||
+                  user?.email}
+              </span>
 
-        <ThemeToggle />
+              <button
+                onClick={logout}
+                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
+              >
+                Logout
+              </button>
+            </>
+          )}
 
+          <ThemeToggle />
+
+        </div>
       </div>
     </nav>
   );
