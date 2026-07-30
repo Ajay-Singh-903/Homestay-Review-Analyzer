@@ -50,13 +50,13 @@ const fetchReviews = useCallback(async () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/reviews",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  `${process.env.NEXT_PUBLIC_API_URL}/api/reviews`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
       const data = await response.json();
 
@@ -100,7 +100,7 @@ const fetchReviews = useCallback(async () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/reviews/search?q=${search}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/search?q=${search}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -179,7 +179,7 @@ const analyzeWithAI = async () => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      "http://localhost:5000/api/ai/analyze",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/ai/analyze`,
       {
         method: "POST",
         headers: {
@@ -257,9 +257,9 @@ if (review.trim().length < 10) {
     try {
       const token = localStorage.getItem("token");
 
-      const url = editingId
-        ? `http://localhost:5000/api/reviews/${editingId}`
-        : "http://localhost:5000/api/reviews";
+     const url = editingId
+  ? `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${editingId}`
+  : `${process.env.NEXT_PUBLIC_API_URL}/api/reviews`;
 
       const method = editingId ? "PUT" : "POST";
 
@@ -314,15 +314,15 @@ const confirmDelete = useCallback(async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-      `http://localhost:5000/api/reviews/${selectedReviewId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+   const response = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${selectedReviewId}`,
+  {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
     if (!response.ok) {
       toast.error("Delete failed");
