@@ -4,8 +4,56 @@ An AI-powered Full Stack Web Application that helps homestay owners analyze gues
 
 ---
 
-# 🚀 Features
 
+# 🌐 Live Deployment
+
+## Frontend (Vercel)
+
+https://homestay-review-analyzer.vercel.app
+
+## Backend (Render)
+
+https://homestay-review-backend.onrender.com
+
+---
+# 🛠 Tech Stack
+
+## Frontend
+
+- Next.js 16
+- React 19
+- Tailwind CSS v4
+- React Hot Toast
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- JWT Authentication
+- dotenv
+- CORS
+
+## AI
+
+- Hugging Face Inference API
+
+## Deployment
+
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas
+
+---
+# ⚠ Known Limitations (Free Tier)
+
+- Render free tier spins down after inactivity.
+- The first request after inactivity may take **30–60 seconds** while the backend wakes up.
+- AI response time depends on the Hugging Face API.
+- Free hosting services may have occasional cold starts.
+
+---
 ## Frontend
 
 - Responsive Landing Page
@@ -170,7 +218,7 @@ npm run dev
 Backend runs on
 
 ```
-http://localhost:5000
+fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/...`)
 ```
 
 ---
@@ -269,7 +317,7 @@ http://localhost:3000
 Backend
 
 ```
-http://localhost:5000
+fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/...`)
 ```
 
 ---
