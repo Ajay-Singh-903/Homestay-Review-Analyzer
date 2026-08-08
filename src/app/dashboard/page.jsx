@@ -365,330 +365,615 @@ const badgeColor = useCallback((sentiment) => {
     }
  }, []);
   return (
-    <ProtectedRoute>
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+  <ProtectedRoute>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-green-50">
       <Navbar />
 
-      <main className="flex-grow max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
+      <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <div className="bg-white shadow-lg rounded-xl p-5 sm:p-6 lg:p-8">
+        {/* HERO HEADER */}
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-green-800 via-emerald-700 to-teal-700 text-white shadow-2xl mb-8">
+          
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
+          <div className="absolute -bottom-24 -left-16 w-72 h-72 bg-green-400/10 rounded-full blur-3xl" />
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-green-700">
-            Homestay Review Dashboard
-          </h1>
+          <div className="relative p-7 sm:p-10">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-          <p className="text-gray-600 mt-2 mb-6">
-            Analyze guest reviews and manage all reviews.
-          </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+              <div>
+                <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-4">
+                  <span>🤖</span>
+                  <span>AI-Powered Review Management</span>
+                </div>
 
-  <div className="bg-blue-600 text-white rounded-xl p-5 shadow-lg">
-    <h3 className="text-lg font-semibold">Total Reviews</h3>
-    <p className="text-4xl font-bold mt-2">{totalReviews}</p>
-  </div>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                  Homestay Review
+                  <span className="block text-green-200">
+                    Dashboard
+                  </span>
+                </h1>
 
-  <div className="bg-green-600 text-white rounded-xl p-5 shadow-lg">
-    <h3 className="text-lg font-semibold">Positive</h3>
-    <p className="text-4xl font-bold mt-2">{statistics.positive}</p>
-  </div>
+                <p className="mt-4 text-green-50 max-w-2xl text-sm sm:text-base leading-7">
+                  Analyze guest feedback, understand sentiment, discover themes,
+                  and generate professional AI-powered responses.
+                </p>
+              </div>
 
-  <div className="bg-red-600 text-white rounded-xl p-5 shadow-lg">
-    <h3 className="text-lg font-semibold">Negative</h3>
-    <p className="text-4xl font-bold mt-2">{statistics.negative}</p>
-  </div>
+              <div className="hidden lg:flex items-center justify-center">
+                <div className="w-32 h-32 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl">
+                  <span className="text-6xl">🏡</span>
+                </div>
+              </div>
 
-  <div className="bg-yellow-500 text-white rounded-xl p-5 shadow-lg">
-    <h3 className="text-lg font-semibold">Neutral</h3>
-    <p className="text-4xl font-bold mt-2">{statistics.neutral}</p>
-  </div>
+            </div>
+          </div>
+        </section>
 
-</div>
-          <div className="flex flex-col sm:flex-row gap-3 mb-6">
+
+        {/* STATISTICS */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+
+          {/* Total */}
+          <div className="group bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  Total Reviews
+                </p>
+
+                <p className="text-3xl sm:text-4xl font-extrabold text-slate-800 mt-2">
+                  {totalReviews}
+                </p>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">
+                📊
+              </div>
+            </div>
+
+            <div className="mt-4 h-1 bg-blue-100 rounded-full overflow-hidden">
+              <div className="h-full w-full bg-blue-500 rounded-full" />
+            </div>
+          </div>
+
+
+          {/* Positive */}
+          <div className="group bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  Positive
+                </p>
+
+                <p className="text-3xl sm:text-4xl font-extrabold text-green-600 mt-2">
+                  {statistics.positive}
+                </p>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">
+                😊
+              </div>
+            </div>
+
+            <div className="mt-4 h-1 bg-green-100 rounded-full overflow-hidden">
+              <div className="h-full bg-green-500 rounded-full w-full" />
+            </div>
+          </div>
+
+
+          {/* Negative */}
+          <div className="group bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  Negative
+                </p>
+
+                <p className="text-3xl sm:text-4xl font-extrabold text-red-600 mt-2">
+                  {statistics.negative}
+                </p>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-2xl">
+                😞
+              </div>
+            </div>
+
+            <div className="mt-4 h-1 bg-red-100 rounded-full overflow-hidden">
+              <div className="h-full bg-red-500 rounded-full w-full" />
+            </div>
+          </div>
+
+
+          {/* Neutral */}
+          <div className="group bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-slate-500">
+                  Neutral
+                </p>
+
+                <p className="text-3xl sm:text-4xl font-extrabold text-yellow-600 mt-2">
+                  {statistics.neutral}
+                </p>
+              </div>
+
+              <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-2xl">
+                😐
+              </div>
+            </div>
+
+            <div className="mt-4 h-1 bg-yellow-100 rounded-full overflow-hidden">
+              <div className="h-full bg-yellow-500 rounded-full w-full" />
+            </div>
+          </div>
+
+        </section>
+
+
+        {/* SEARCH */}
+        <section className="bg-white rounded-2xl shadow-lg border border-slate-100 p-5 sm:p-6 mb-8">
+
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
+              🔎
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">
+                Search Reviews
+              </h2>
+
+              <p className="text-sm text-slate-500">
+                Find a specific guest review
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
 
             <input
               type="text"
-              placeholder="Search..."
-              className="flex-1 border rounded-lg p-3"
+              placeholder="Search reviews..."
+              className="flex-1 border border-slate-200 rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 focus:bg-white"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
 
             <button
               onClick={searchReviews}
-              className="bg-blue-600 text-white px-5 py-3 rounded-lg w-full sm:w-auto hover:bg-blue-700 transition"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
             >
-              Search
+              🔍 Search
             </button>
 
             <button
               onClick={fetchReviews}
-              className="bg-gray-700 text-white px-5 py-3 rounded-lg w-full sm:w-auto hover:bg-gray-800 transition"
+              className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3.5 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
             >
-              Reset
+              ↻ Reset
             </button>
 
           </div>
-
-        <input
-  className="border rounded-lg p-3 w-full mb-4 focus:ring-2 focus:ring-green-500 outline-none"
-  placeholder="Guest Name"
-  maxLength={50}
-  value={guestName}
-  onChange={(e) => setGuestName(e.target.value)}
-/>
-          <textarea
-  rows={6}
-  className="border rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 outline-none"
-  placeholder="Write your review..."
-  maxLength={500}
-  value={review}
-  onChange={(e) => setReview(e.target.value)}
-/>
-<div className="flex justify-end mt-2">
-  <span className="text-sm text-gray-500">
-    {review.length}/500
-  </span>
-</div>
-
-        <div className="flex gap-4 mt-5">
-
-  <button
-    onClick={analyzeWithAI}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
-  >
-    Analyze with AI
-  </button>
-
-  <button
-    onClick={submitReview}
-    className="mt-5 bg-green-700 text-white px-6 py-3 rounded-lg"
-  >
-    {editingId ? "Update Review" : "Save Review"}
-  </button>
-
-</div>
-          {loading && (
-  <div className="mt-6 text-center">
-
-    <Loader />
-
-    <p className="mt-3 text-green-700 font-medium animate-pulse">
-      AI is analyzing your review...
-    </p>
-
-  </div>
-)}
-  {aiResult && (
-  <div className="mt-6 bg-white rounded-xl shadow-lg border p-6">
-
-    <h2 className="text-2xl font-bold text-blue-700 mb-6">
-      🤖 AI Review Analysis
-    </h2>
-
-    <div className="mb-5">
-      <h3 className="font-semibold text-lg text-green-600">
-        😊 Sentiment
-      </h3>
-
-      <p className="mt-2 bg-green-50 p-3 rounded-lg border">
-        {aiSentiment}
-      </p>
-    </div>
-
-    <div className="mb-5">
-      <h3 className="font-semibold text-lg text-purple-600">
-        🏷 Theme
-      </h3>
-
-      <p className="mt-2 bg-purple-50 p-3 rounded-lg border">
-        {aiTheme}
-      </p>
-    </div>
-
-    <div>
-      <h3 className="font-semibold text-lg text-blue-600">
-        💬 AI Response
-      </h3>
-
-      <p className="mt-2 bg-blue-50 p-4 rounded-lg border whitespace-pre-wrap">
-        {aiResponse}
-      </p>
-    </div>
-
-  </div>
-)}
-
-        </div>
-
-        <div className="mt-10">
-
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6">
-            All Reviews ({reviews.length})
-          </h2>
-
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-  {reviews.length === 0 ? (
-
-    <div className="col-span-full bg-white rounded-xl shadow-lg p-10 text-center">
-
-      <h2 className="text-2xl font-bold text-gray-700">
-        📭 No Reviews Found
-      </h2>
-
-      <p className="text-gray-500 mt-3">
-        Add your first guest review to start analyzing sentiments.
-      </p>
-
-    </div>
-
-  ) : (
-
-    reviews.map((item) => (
-
-      <div
-        key={item._id}
-        className="bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
-      >
-<div
-  key={item._id}
-  className="bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
->
-  <div className="flex justify-between items-center">
-
-    <h3 className="text-xl font-bold text-gray-800">
-      👤 {item.guestName}
-    </h3>
-
-    <span
-      className={`text-white px-3 py-1 rounded-full ${badgeColor(
-        item.sentiment
-      )}`}
-    >
-      {item.sentiment}
-    </span>
-
-  </div>
-
-  <div className="mt-5">
-
-   <h4 className="font-semibold text-green-700">
-  🏷 Theme
-</h4>
-
-<div className="mt-2 inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full font-medium">
-  {item.theme || "Not Available"}
-</div>
-
-  </div>
-
-  <div className="mt-5">
-
-    <h4 className="font-semibold text-blue-700 flex items-center gap-2">
-  🤖 AI Response
-</h4>
-
-<div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-4 mt-3 shadow-sm">
-
-  {item.response ? (
-    <p className="text-gray-700 leading-7 whitespace-pre-wrap">
-      {item.response}
-    </p>
-  ) : (
-    <p className="text-gray-400 italic">
-      No AI response available.
-    </p>
-  )}
-
-</div>
-
-  </div>
-
-  <div className="mt-5">
-
-    <h4 className="font-semibold text-purple-700">
-      📝 Guest Review
-    </h4>
-
-    <p className="mt-2 text-gray-700">
-      {item.review}
-    </p>
-
-  </div>
-
-  <p className="text-xs text-gray-500 mt-5">
-    {new Date(item.createdAt).toLocaleString()}
-  </p>
-
-  <div className="flex flex-col sm:flex-row gap-3 mt-5">
-
-    <button
-      onClick={() => editReview(item)}
-      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 w-full"
-    >
-      Edit
-    </button>
-
-    <button
-      onClick={() => deleteReview(item._id)}
-      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-full"
-    >
-      Delete
-    </button>
-
-  </div>
-
-</div>
-      </div>
-
-    ))
-
-  )}
-
-</div>
+        </section>
 
 
-        </div>
+        {/* ADD / EDIT REVIEW */}
+        <section className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden mb-10">
+
+          <div className="bg-gradient-to-r from-green-700 to-emerald-600 px-6 sm:px-8 py-6 text-white">
+
+            <div className="flex items-center gap-4">
+
+              <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center text-2xl backdrop-blur-sm">
+                {editingId ? "✏️" : "📝"}
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  {editingId ? "Edit Review" : "Add Guest Review"}
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  {editingId
+                    ? "Update the guest review details below."
+                    : "Enter guest feedback and use AI to analyze it."}
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div className="p-6 sm:p-8">
+
+            {/* Guest Name */}
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              Guest Name
+            </label>
+
+            <input
+              className="border border-slate-200 rounded-xl p-3.5 w-full mb-5 outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-slate-50 focus:bg-white"
+              placeholder="Enter guest name"
+              maxLength={50}
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+            />
+
+
+            {/* Review */}
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-semibold text-slate-700">
+                Guest Review
+              </label>
+
+              <span className="text-xs text-slate-400">
+                {review.length}/500
+              </span>
+            </div>
+
+            <textarea
+              rows={6}
+              className="border border-slate-200 rounded-xl p-4 w-full outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-slate-50 focus:bg-white resize-none"
+              placeholder="Write the guest review here..."
+              maxLength={500}
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            />
+
+
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
+
+              <button
+                onClick={analyzeWithAI}
+                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3.5 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                🤖 Analyze with AI
+              </button>
+
+              <button
+                onClick={submitReview}
+                className="flex-1 bg-gradient-to-r from-green-700 to-emerald-600 hover:from-green-800 hover:to-emerald-700 text-white px-6 py-3.5 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                {editingId ? "✏️ Update Review" : "💾 Save Review"}
+              </button>
+
+            </div>
+
+          </div>
+        </section>
+
+
+        {/* LOADING */}
+        {loading && (
+          <div className="bg-white rounded-2xl shadow-lg p-8 text-center mb-8">
+
+            <Loader />
+
+            <p className="mt-4 text-green-700 font-semibold animate-pulse">
+              🤖 AI is analyzing your review...
+            </p>
+
+            <p className="text-sm text-slate-500 mt-1">
+              Please wait while we generate insights.
+            </p>
+
+          </div>
+        )}
+
+
+        {/* AI RESULT */}
+        {aiResult && (
+          <section className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden mb-10">
+
+            <div className="bg-gradient-to-r from-indigo-700 via-purple-700 to-blue-700 p-6 sm:p-8 text-white">
+
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center text-3xl backdrop-blur-sm">
+                  🤖
+                </div>
+
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-bold">
+                    AI Review Analysis
+                  </h2>
+
+                  <p className="text-indigo-100 text-sm mt-1">
+                    Intelligent insights generated from your guest review
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+              {/* Sentiment */}
+              <div className="rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 p-5">
+
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">😊</span>
+
+                  <h3 className="font-bold text-lg text-green-700">
+                    Sentiment
+                  </h3>
+                </div>
+
+                <p className="bg-white/70 p-4 rounded-xl border border-green-100 text-slate-700 font-medium">
+                  {aiSentiment}
+                </p>
+
+              </div>
+
+
+              {/* Theme */}
+              <div className="rounded-2xl border border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50 p-5">
+
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">🏷️</span>
+
+                  <h3 className="font-bold text-lg text-purple-700">
+                    Theme
+                  </h3>
+                </div>
+
+                <p className="bg-white/70 p-4 rounded-xl border border-purple-100 text-slate-700 font-medium">
+                  {aiTheme}
+                </p>
+
+              </div>
+
+
+              {/* Response */}
+              <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 p-5">
+
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">💬</span>
+
+                  <h3 className="font-bold text-lg text-blue-700">
+                    AI Response
+                  </h3>
+                </div>
+
+                <p className="bg-white/70 p-4 rounded-xl border border-blue-100 text-slate-700 leading-7 whitespace-pre-wrap">
+                  {aiResponse}
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+        )}
+
+
+        {/* ALL REVIEWS */}
+        <section>
+
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
+                Guest Reviews
+              </h2>
+
+              <p className="text-slate-500 mt-1">
+                Manage and analyze your collected guest feedback.
+              </p>
+            </div>
+
+            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold text-sm">
+              {reviews.length} {reviews.length === 1 ? "Review" : "Reviews"}
+            </div>
+
+          </div>
+
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {reviews.length === 0 ? (
+
+              <div className="col-span-full bg-white rounded-3xl shadow-lg border border-slate-100 p-10 sm:p-14 text-center">
+
+                <div className="w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-4xl mb-5">
+                  📭
+                </div>
+
+                <h2 className="text-2xl font-bold text-slate-700">
+                  No Reviews Found
+                </h2>
+
+                <p className="text-slate-500 mt-3 max-w-md mx-auto">
+                  Add your first guest review to start analyzing sentiments
+                  and generating AI-powered responses.
+                </p>
+
+              </div>
+
+            ) : (
+
+              reviews.map((item) => (
+
+                <div
+                  key={item._id}
+                  className="bg-white rounded-3xl shadow-lg border border-slate-100 p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+                >
+
+                  {/* Card Header */}
+                  <div className="flex justify-between items-start gap-3">
+
+                    <div className="flex items-center gap-3 min-w-0">
+
+                      <div className="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center text-xl shrink-0">
+                        👤
+                      </div>
+
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-bold text-slate-800 truncate">
+                          {item.guestName}
+                        </h3>
+
+                        <p className="text-xs text-slate-400">
+                          Guest
+                        </p>
+                      </div>
+
+                    </div>
+
+                    <span
+                      className={`text-white text-xs sm:text-sm px-3 py-1.5 rounded-full font-semibold shadow-sm whitespace-nowrap ${badgeColor(
+                        item.sentiment
+                      )}`}
+                    >
+                      {item.sentiment}
+                    </span>
+
+                  </div>
+
+
+                  {/* Theme */}
+                  <div className="mt-6">
+
+                    <h4 className="font-semibold text-sm text-slate-600 flex items-center gap-2">
+                      🏷️ Theme
+                    </h4>
+
+                    <div className="mt-2 inline-block bg-green-50 text-green-700 border border-green-200 px-4 py-2 rounded-full font-medium text-sm">
+                      {item.theme || "Not Available"}
+                    </div>
+
+                  </div>
+
+
+                  {/* Review */}
+                  <div className="mt-6">
+
+                    <h4 className="font-semibold text-sm text-slate-600 flex items-center gap-2">
+                      📝 Guest Review
+                    </h4>
+
+                    <div className="mt-2 bg-slate-50 border border-slate-100 rounded-xl p-4">
+                      <p className="text-slate-700 leading-6">
+                        {item.review}
+                      </p>
+                    </div>
+
+                  </div>
+
+
+                  {/* AI Response */}
+                  <div className="mt-5">
+
+                    <h4 className="font-semibold text-sm text-blue-700 flex items-center gap-2">
+                      🤖 AI Response
+                    </h4>
+
+                    <div className="bg-gradient-to-br from-blue-50 to-green-50 border border-blue-100 rounded-xl p-4 mt-2">
+
+                      {item.response ? (
+                        <p className="text-slate-700 text-sm leading-6 whitespace-pre-wrap">
+                          {item.response}
+                        </p>
+                      ) : (
+                        <p className="text-slate-400 italic text-sm">
+                          No AI response available.
+                        </p>
+                      )}
+
+                    </div>
+
+                  </div>
+
+
+                  {/* Date */}
+                  <div className="mt-5 pt-4 border-t border-slate-100">
+                    <p className="text-xs text-slate-400">
+                      🕒 {new Date(item.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+
+
+                  {/* Actions */}
+                  <div className="flex gap-3 mt-5">
+
+                    <button
+                      onClick={() => editReview(item)}
+                      className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2.5 rounded-xl font-semibold transition shadow-sm hover:shadow-md"
+                    >
+                      ✏️ Edit
+                    </button>
+
+                    <button
+                      onClick={() => deleteReview(item._id)}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl font-semibold transition shadow-sm hover:shadow-md"
+                    >
+                      🗑 Delete
+                    </button>
+
+                  </div>
+
+                </div>
+
+              ))
+
+            )}
+
+          </div>
+
+        </section>
 
       </main>
-{showDeleteModal && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div className="bg-white rounded-xl p-8 w-[90%] max-w-md shadow-xl">
 
-      <h2 className="text-2xl font-bold text-gray-800">
-        Delete Review?
-      </h2>
+      {/* DELETE MODAL */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
-      <p className="mt-4 text-gray-600">
-        This action cannot be undone.
-      </p>
+          <div className="bg-white rounded-3xl p-7 sm:p-8 w-full max-w-md shadow-2xl">
 
-      <div className="flex justify-end gap-4 mt-8">
+            <div className="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center text-2xl mb-5">
+              🗑️
+            </div>
 
-        <button
-          onClick={() => setShowDeleteModal(false)}
-          className="px-5 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
-        >
-          Cancel
-        </button>
+            <h2 className="text-2xl font-bold text-slate-800">
+              Delete Review?
+            </h2>
 
-        <button
-          onClick={confirmDelete}
-          className="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
-        >
-          Delete
-        </button>
+            <p className="mt-3 text-slate-500 leading-6">
+              This action cannot be undone. Are you sure you want to permanently
+              delete this review?
+            </p>
 
-      </div>
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
 
-    </div>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition"
+              >
+                Cancel
+              </button>
 
-  </div>
-)}
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition shadow-md"
+              >
+                Delete Review
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+
       <Toast />
       <Footer />
+
     </div>
-    </ProtectedRoute>
-  );
+  </ProtectedRoute>
+);
 }
