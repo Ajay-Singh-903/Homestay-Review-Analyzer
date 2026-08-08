@@ -41,7 +41,6 @@ https://github.com/Ajay-Singh-903/Homestay-Review-Analyzer
 
 ![AI Analysis](./public/images/ai-analysis.png)
 
-> **Note:** Replace the image paths above with the actual screenshot filenames in your repository.
 
 ---
 
